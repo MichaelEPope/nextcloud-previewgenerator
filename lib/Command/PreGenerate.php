@@ -215,6 +215,7 @@ class PreGenerate extends Command {
 					}, $this->sizes['width'])
 				);
 				$this->previewGenerator->generatePreviews($file, $specifications);
+				usleep(8000);			# ensures server won't hang for more than 2 seconds (whole process takes ~3 hours)
 			} catch (NotFoundException $e) {
 				// Maybe log that previews could not be generated?
 			} catch (\InvalidArgumentException $e) {

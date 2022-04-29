@@ -141,7 +141,7 @@ class PreGenerate extends Command {
 			$qb->select('*')
 				->from('preview_generation')
 				->orderBy('id')
-				->setMaxResults(1000);
+				->setMaxResults(25);		# 1000 -> 25 and run every 5 mintues on cron so that server shutdowns don't kill pregeneration.
 			$cursor = $qb->execute();
 			$rows = $cursor->fetchAll();
 			$cursor->closeCursor();
@@ -215,7 +215,7 @@ class PreGenerate extends Command {
 					}, $this->sizes['width'])
 				);
 				$this->previewGenerator->generatePreviews($file, $specifications);
-				usleep(8000);			# ensures server won't hang for more than 2 seconds (whole process takes ~3 hours)
+				usleep(8000);			# ensures server won't hang for more than 2 seconds (set cron job to occur every 5 minutes)
 			} catch (NotFoundException $e) {
 				// Maybe log that previews could not be generated?
 			} catch (\InvalidArgumentException $e) {
